@@ -68,7 +68,7 @@ export class TestCreatorComponent {
     
     if (!this.validateQuestion()) return;
     
-    this.testService.addQuestionToTest(this.currentTestId, this.newQuestion);
+    // this.testService.addQuestionToTest(this.currentTestId, this.newQuestion);
     this.saveTest(); // Автосохранение после добавления вопроса
     
     this.resetQuestionForm();
@@ -78,11 +78,19 @@ export class TestCreatorComponent {
   saveTest(): void {
     if (!this.currentTestId) return;
     
-    const test = this.testService.getTestById(this.currentTestId);
-    if (!test) return;
+    // Используем новый метод сохранения
+      this.testService.saveTestWithCurrentQuestion(
+        this.currentTestId, 
+        this.newQuestion
+      );
+
+      this.showSuccess('Test saved successfully!');
   
-    this.testService.saveTest(test); // Правильный вызов
-    this.snackBar.open('Test saved!', 'OK', { duration: 2000 });
+  // Для отладки - проверим что сохранилось
+      console.log(
+        'Saved test:', 
+        this.testService.getTestById(this.currentTestId)
+    );
   }
 
   private validateQuestion(): boolean {
@@ -91,6 +99,11 @@ export class TestCreatorComponent {
       return false;
     }
     return true;
+  }
+
+  public hasUnsavedQuestion(): boolean {
+    return !!this.newQuestion.text || 
+           this.newQuestion.options.some(opt => !!opt);
   }
 
   private resetQuestionForm(): void {

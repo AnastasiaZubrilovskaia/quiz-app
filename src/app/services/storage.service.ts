@@ -9,22 +9,45 @@ export class StorageService {
   private readonly TESTS_KEY = 'angular-testing-app-tests';
   private readonly ATTEMPTS_KEY = 'angular-testing-app-attempts';
 
+  private serializeDate(obj: any): any {
+    return JSON.stringify(obj, (key, value) => {
+      if (value instanceof Date) {
+        return { _type: 'date', value: value.toISOString() };
+      }
+      return value;
+    });
+  }
+
+  private deserializeDate(obj: any): any {
+    return JSON.parse(obj, (key, value) => {
+      if (value && value._type === 'date') {
+        return new Date(value.value);
+      }
+      return value;
+    });
+  }
+
   getTests(): Test[] {
     const testsJson = localStorage.getItem(this.TESTS_KEY);
-    return testsJson ? JSON.parse(testsJson) : [];
+    return testsJson ? this.deserializeDate(testsJson) : [];
   }
 
   saveTest(test: Test): void {
-    const tests = this.getTests();
-    const existingIndex = tests.findIndex(t => t.id === test.id);
-    
-    if (existingIndex >= 0) {
-      tests[existingIndex] = test;
-    } else {
-      tests.push(test);
+    try {
+      const tests = this.getTests();
+      const index = tests.findIndex(t => t.id === test.id);
+      
+      if (index >= 0) {
+        tests[index] = test;
+      } else {
+        tests.push(test);
+      }
+      
+      localStorage.setItem(this.TESTS_KEY, this.serializeDate(tests));
+      console.log('Saved to localStorage:', test);
+    } catch (error) {
+      console.error('Save error:', error);
     }
-    
-    localStorage.setItem(this.TESTS_KEY, JSON.stringify(tests));
   }
 
   getTestById(id: string): Test | undefined {
@@ -33,13 +56,13 @@ export class StorageService {
 
   getAttempts(): Attempt[] {
     const attemptsJson = localStorage.getItem(this.ATTEMPTS_KEY);
-    return attemptsJson ? JSON.parse(attemptsJson) : [];
+    return attemptsJson ? this.deserializeDate(attemptsJson) : [];
   }
 
   saveAttempt(attempt: Attempt): void {
     const attempts = this.getAttempts();
     attempts.push(attempt);
-    localStorage.setItem(this.ATTEMPTS_KEY, JSON.stringify(attempts));
+    localStorage.setItem(this.ATTEMPTS_KEY, this.serializeDate(attempts));
   }
 
   getAttemptsByTestId(testId: string): Attempt[] {

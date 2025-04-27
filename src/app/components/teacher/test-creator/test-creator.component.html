@@ -56,9 +56,17 @@
       </mat-form-field>
       
       <div class="actions">
-        <button mat-raised-button color="primary" (click)="addQuestion()">Add Question</button>
-        <button mat-raised-button color="primary" (click)="saveTest()">Save Test</button>
-        <button mat-raised-button color="warn" (click)="downloadTestJson()">Export JSON</button>
+        <button mat-raised-button color="primary" (click)="addQuestion()">
+          {{ hasUnsavedQuestion() ? 'Save & Add New' : 'Add Question' }}
+        </button>
+        
+        <button mat-raised-button color="accent" (click)="saveTest()">
+          Final Save
+        </button>
+        
+        <button mat-raised-button color="warn" (click)="downloadTestJson()">
+          Export
+        </button>
       </div>
     </div>
   </div>
