@@ -28,10 +28,14 @@
           required>
       </mat-form-field>
       
-      <div *ngFor="let option of newQuestion.options; let i = index" class="option-row">
+      <div *ngFor="let option of newQuestion.options; let i = index; trackBy: trackByOption" class="option-row">
         <mat-form-field appearance="fill" class="option-field">
           <mat-label>Option {{i + 1}}</mat-label>
-          <input matInput [(ngModel)]="newQuestion.options[i]" required>
+          <input 
+            matInput 
+            [(ngModel)]="newQuestion.options[i]" 
+            [name]="'option-' + i"
+            required>
         </mat-form-field>
       </div>
       

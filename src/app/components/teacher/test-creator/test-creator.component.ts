@@ -56,6 +56,9 @@ export class TestCreatorComponent {
     this.showSuccess('Test created successfully!');
     this.saveTest(); // Автосохранение при создании
   }
+  trackByOption(index: number): number {
+    return index;
+  }
 
   addQuestion(): void {
     if (!this.currentTestId) {
