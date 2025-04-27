@@ -28,9 +28,7 @@ import { CommonModule } from '@angular/common';
     MatSnackBarModule
   ]
 })
-export class TestCreatorComponent implements AfterViewChecked{
-  @ViewChild('questionInput') questionInput!: ElementRef;
-
+export class TestCreatorComponent {
   testTitle = '';
   testDescription = '';
   currentTestId: string | null = null;
@@ -42,18 +40,10 @@ export class TestCreatorComponent implements AfterViewChecked{
     points: 1
   };
 
-  private needsFocus = false;
   constructor(
     private testService: TestService,
     private snackBar: MatSnackBar
   ) {}
-
-  ngAfterViewChecked(): void {
-    if (this.needsFocus && this.questionInput) {
-      this.questionInput.nativeElement.focus();
-      this.needsFocus = false;
-    }
-  }
 
   createTest(): void {
     if (!this.testTitle) {
@@ -79,7 +69,6 @@ export class TestCreatorComponent implements AfterViewChecked{
     this.saveTest(); // Автосохранение после добавления вопроса
     
     this.resetQuestionForm();
-    this.needsFocus = true;
     this.showSuccess('Question added successfully!');
   }
 

@@ -33,10 +33,6 @@
           <mat-label>Option {{i + 1}}</mat-label>
           <input matInput [(ngModel)]="newQuestion.options[i]" required>
         </mat-form-field>
-        
-        <button mat-icon-button (click)="removeOption(i)" [disabled]="newQuestion.options.length <= 2">
-          <mat-icon>delete</mat-icon>
-        </button>
       </div>
       
       <button mat-button (click)="addOption()">Add Option</button>
