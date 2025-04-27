@@ -1,0 +1,80 @@
+<div class="container">
+    <div *ngIf="!test">
+      <p>Test not found</p>
+    </div>
+    
+    <div *ngIf="test && !testCompleted">
+      <div *ngIf="!studentName" class="start-screen">
+        <h2>Welcome to {{test.title}}</h2>
+        <p class="description">{{test.description}}</p>
+        
+        <mat-form-field appearance="fill" class="name-input">
+          <mat-label>Your Name</mat-label>
+          <input matInput [(ngModel)]="studentName" required>
+        </mat-form-field>
+        
+        <button mat-raised-button color="primary" (click)="startTest()">Start Test</button>
+      </div>
+      
+      <div *ngIf="studentName" class="test-screen">
+        <div class="test-header">
+          <h3>{{test.title}}</h3>
+          <div class="progress">Question {{currentQuestionIndex + 1}} of {{test.questions.length}}</div>
+        </div>
+        
+        <div class="question-container">
+          <p class="question-text">{{currentQuestion?.text}}</p>
+          
+          <mat-radio-group 
+            [(ngModel)]="answers[currentQuestionIndex]" 
+            (change)="selectAnswer($event.value)"
+            class="options-group">
+            <mat-radio-button 
+              *ngFor="let option of currentQuestion?.options; let i = index" 
+              [value]="i" 
+              class="option">
+              {{option}}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+        
+        <div class="navigation">
+          <button mat-stroked-button 
+                  (click)="prevQuestion()" 
+                  [disabled]="currentQuestionIndex === 0">
+            ← Previous
+          </button>
+          
+          <button *ngIf="currentQuestionIndex < test.questions.length - 1"
+                  mat-raised-button 
+                  color="primary"
+                  (click)="nextQuestion()">
+            Next →
+          </button>
+          
+          <button *ngIf="currentQuestionIndex === test.questions.length - 1"
+                  mat-raised-button 
+                  color="accent"
+                  (click)="submitTest()">
+            Submit Test
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="testCompleted && result" class="result-screen">
+      <h2>Test Completed</h2>
+      <div class="result-card mat-elevation-z8">
+        <h3>{{test?.title}}</h3>
+        <p>Student: {{result.studentName}}</p>
+        <p>Score: <span class="score">{{result.score}}</span> points</p>
+        <p>Date: {{result.date | date:'medium'}}</p>
+        
+        <button mat-raised-button 
+                color="primary"
+                routerLink="/student/history">
+          View All Attempts
+        </button>
+      </div>
+    </div>
+  </div>
