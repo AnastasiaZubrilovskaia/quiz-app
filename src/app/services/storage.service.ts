@@ -6,8 +6,8 @@ import { Attempt } from '../models/attempt.model';
   providedIn: 'root'
 })
 export class StorageService {
-  private readonly TESTS_KEY = 'angular-testing-app-tests';
-  private readonly ATTEMPTS_KEY = 'angular-testing-app-attempts';
+  private readonly TESTS_KEY = 'quiz-app-tests';
+  private readonly ATTEMPTS_KEY = 'quiz-app-attempts';
 
   private serializeDate(obj: any): any {
     return JSON.stringify(obj, (key, value) => {
@@ -29,7 +29,7 @@ export class StorageService {
 
   getTests(): Test[] {
     const testsJson = localStorage.getItem(this.TESTS_KEY);
-    return testsJson ? this.deserializeDate(testsJson) : [];
+    return testsJson ? JSON.parse(testsJson) : [];
   }
 
   saveTest(test: Test): void {
@@ -56,7 +56,7 @@ export class StorageService {
 
   getAttempts(): Attempt[] {
     const attemptsJson = localStorage.getItem(this.ATTEMPTS_KEY);
-    return attemptsJson ? this.deserializeDate(attemptsJson) : [];
+    return attemptsJson ? JSON.parse(attemptsJson) : [];
   }
 
   saveAttempt(attempt: Attempt): void {
@@ -67,5 +67,15 @@ export class StorageService {
 
   getAttemptsByTestId(testId: string): Attempt[] {
     return this.getAttempts().filter(attempt => attempt.testId === testId);
+  }
+
+  deleteTest(testId: string): void {
+    // 1. Удаляем сам тест
+    const tests = this.getTests().filter(test => test.id !== testId);
+    localStorage.setItem(this.TESTS_KEY, JSON.stringify(tests));
+
+    // 2. Удаляем все попытки прохождения этого теста
+    const attempts = this.getAttempts().filter(attempt => attempt.testId !== testId);
+    localStorage.setItem(this.ATTEMPTS_KEY, JSON.stringify(attempts));
   }
 }

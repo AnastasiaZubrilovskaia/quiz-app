@@ -1,72 +1,72 @@
 <div class="container">
-    <h2>Create New Test</h2>
+  <h2>Create New Test</h2>
+  
+  <div *ngIf="!currentTestId">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Test Title</mat-label>
+      <input matInput [(ngModel)]="testTitle" required>
+    </mat-form-field>
     
-    <div *ngIf="!currentTestId">
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Test Title</mat-label>
-        <input matInput [(ngModel)]="testTitle" required>
-      </mat-form-field>
-      
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Description</mat-label>
-        <textarea matInput [(ngModel)]="testDescription"></textarea>
-      </mat-form-field>
-      
-      <button mat-raised-button color="primary" (click)="createTest()">Create Test</button>
-    </div>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput [(ngModel)]="testDescription"></textarea>
+    </mat-form-field>
     
-    <div *ngIf="currentTestId">
-      <h3>Add Questions</h3>
-      
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Question Text</mat-label>
+    <button mat-raised-button color="primary" (click)="createTest()">Create Test</button>
+  </div>
+  
+  <div *ngIf="currentTestId">
+    <h3>Add Questions</h3>
+    
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Question Text</mat-label>
+      <input 
+        #questionInput
+        matInput 
+        [(ngModel)]="newQuestion.text" 
+        (keyup.enter)="addQuestion()"
+        required>
+    </mat-form-field>
+    
+    <div *ngFor="let option of newQuestion.options; let i = index; trackBy: trackByOption" class="option-row">
+      <mat-form-field appearance="fill" class="option-field">
+        <mat-label>Option {{i + 1}}</mat-label>
         <input 
-          #questionInput
           matInput 
-          [(ngModel)]="newQuestion.text" 
-          (keyup.enter)="addQuestion()"
+          [(ngModel)]="newQuestion.options[i]" 
+          [name]="'option-' + i"
           required>
       </mat-form-field>
+    </div>
+    
+    <button mat-button (click)="addOption()">Add Option</button>
+    
+    <mat-form-field appearance="fill" class="points-field">
+      <mat-label>Correct Answer</mat-label>
+      <mat-select [(ngModel)]="newQuestion.correctAnswer">
+        <mat-option *ngFor="let option of newQuestion.options; let i = index" [value]="i">
+          Option {{i + 1}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill" class="points-field">
+      <mat-label>Points</mat-label>
+      <input matInput type="number" [(ngModel)]="newQuestion.points" min="1">
+    </mat-form-field>
+    
+    <div class="actions">
+      <button mat-raised-button color="primary" (click)="addQuestion()">
+        {{ hasUnsavedQuestion() ? 'Save & Add New' : 'Add Question' }}
+      </button>
       
-      <div *ngFor="let option of newQuestion.options; let i = index; trackBy: trackByOption" class="option-row">
-        <mat-form-field appearance="fill" class="option-field">
-          <mat-label>Option {{i + 1}}</mat-label>
-          <input 
-            matInput 
-            [(ngModel)]="newQuestion.options[i]" 
-            [name]="'option-' + i"
-            required>
-        </mat-form-field>
-      </div>
+      <button mat-raised-button color="accent" (click)="saveTest()">
+        Final Save
+      </button>
       
-      <button mat-button (click)="addOption()">Add Option</button>
-      
-      <mat-form-field appearance="fill" class="points-field">
-        <mat-label>Correct Answer</mat-label>
-        <mat-select [(ngModel)]="newQuestion.correctAnswer">
-          <mat-option *ngFor="let option of newQuestion.options; let i = index" [value]="i">
-            Option {{i + 1}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      
-      <mat-form-field appearance="fill" class="points-field">
-        <mat-label>Points</mat-label>
-        <input matInput type="number" [(ngModel)]="newQuestion.points" min="1">
-      </mat-form-field>
-      
-      <div class="actions">
-        <button mat-raised-button color="primary" (click)="addQuestion()">
-          {{ hasUnsavedQuestion() ? 'Save & Add New' : 'Add Question' }}
-        </button>
-        
-        <button mat-raised-button color="accent" (click)="saveTest()">
-          Final Save
-        </button>
-        
-        <button mat-raised-button color="warn" (click)="downloadTestJson()">
-          Export
-        </button>
-      </div>
+      <button mat-raised-button color="warn" (click)="downloadTestJson()">
+        Export
+      </button>
     </div>
   </div>
+</div>

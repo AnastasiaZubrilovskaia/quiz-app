@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 16px;
+    background-color: #000000;
+  
+    .app-title {
+      color: white;
+      font-size: 1.2rem;
+      text-decoration: none;
+      margin-right: 16px;
+    }
+  
+    .nav-menu, .auth-menu {
+      display: flex;
+      gap: 8px;
+  
+      a[mat-button], button[mat-button] {
+        color: white;
+      }
+    }
+  }
+  
+  .active {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+  }
+  
+  .content {
+    flex: 1;
+    padding: 16px;
+  }

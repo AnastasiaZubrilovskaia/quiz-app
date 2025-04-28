@@ -1,0 +1,53 @@
+<div class="container">
+    <div class="header">
+      <h2>Список тестов</h2>
+      <button *ngIf="isAuthenticated$ | async" 
+              mat-raised-button 
+              color="primary"
+              routerLink="/tests/new">
+        <mat-icon>add</mat-icon> Создать тест
+      </button>
+    </div>
+  
+    <mat-table [dataSource]="tests" class="mat-elevation-z8">
+      <!-- Название -->
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef>Название</mat-header-cell>
+        <mat-cell *matCellDef="let test">{{ test.title }}</mat-cell>
+      </ng-container>
+  
+      <!-- Описание -->
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef>Описание</mat-header-cell>
+        <mat-cell *matCellDef="let test">{{ test.description }}</mat-cell>
+      </ng-container>
+  
+      <!-- Дата создания -->
+      <ng-container matColumnDef="createdAt">
+        <mat-header-cell *matHeaderCellDef>Дата создания</mat-header-cell>
+        <mat-cell *matCellDef="let test">{{ formatDate(test.createdAt) }}</mat-cell>
+      </ng-container>
+  
+      <!-- Действия -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>Действия</mat-header-cell>
+        <mat-cell *matCellDef="let test">
+          <button *ngIf="isAuthenticated$ | async"
+                  mat-icon-button
+                  color="warn"
+                  (click)="deleteTest(test.id); $event.stopPropagation()">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="['title', 'description', 'createdAt', 'actions']"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: ['title', 'description', 'createdAt', 'actions']"
+               (click)="onTestClick(row)"></mat-row>
+    </mat-table>
+  
+    <div *ngIf="tests.length === 0" class="no-tests">
+      <mat-icon>quiz</mat-icon>
+      <p>Нет доступных тестов</p>
+    </div>
+  </div>

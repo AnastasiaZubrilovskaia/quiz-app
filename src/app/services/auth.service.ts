@@ -1,31 +1,36 @@
 import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+import { Router } from "@angular/router";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private currentUser: any = null;
   private teachers = [
     { login: 'teacher1', password: '12345' },
     { login: 'teacher2', password: '67890' }
   ];
+  isAuthenticated$ = new BehaviorSubject<boolean>(false);
 
-  public login(login: string, password: string): boolean {
+  constructor(private router: Router) {}
+
+  login(login: string, password: string): boolean {
     const teacher = this.teachers.find(t => 
       t.login === login && t.password === password);
     
     if (teacher) {
-      this.currentUser = teacher;
       localStorage.setItem('currentUser', JSON.stringify(teacher));
+      this.isAuthenticated$.next(true);
       return true;
     }
     return false;
   }
 
   isAuthenticated(): boolean {
-    return !!this.currentUser;
+    return this.isAuthenticated$.value;
   }
 
   logout() {
-    this.currentUser = null;
     localStorage.removeItem('currentUser');
+    this.isAuthenticated$.next(false);
+    this.router.navigate(['tests']); 
   }
 }

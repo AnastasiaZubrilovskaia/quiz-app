@@ -68,7 +68,6 @@ export class TestCreatorComponent {
     
     if (!this.validateQuestion()) return;
     
-    // this.testService.addQuestionToTest(this.currentTestId, this.newQuestion);
     this.saveTest(); // Автосохранение после добавления вопроса
     
     this.resetQuestionForm();

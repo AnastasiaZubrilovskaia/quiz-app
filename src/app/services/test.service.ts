@@ -35,11 +35,13 @@ export class TestService {
     return this.storageService.getTestById(id);
   }
 
+  getTests(): Test[] {
+    return this.storageService.getTests();
+  }
+
   getAttemptsByTestId(testId: string): Attempt[] {
-    if (!testId) {
-      throw new Error('Test ID is required');
-    }
-    return this.storageService.getAttemptsByTestId(testId);
+    const attempts = this.storageService.getAttempts();
+    return attempts.filter(attempt => attempt.testId === testId);
   }
 
   saveTest(test: Test): void {
@@ -154,5 +156,9 @@ export class TestService {
 
   getAttempts(): Attempt[] {
     return this.storageService.getAttempts();
+  }
+
+  deleteTest(testId: string): void {
+    this.storageService.deleteTest(testId);
   }
 }

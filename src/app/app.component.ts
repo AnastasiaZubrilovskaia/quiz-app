@@ -3,6 +3,9 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import { AuthService } from './services/auth.service';
+import { Observable } from 'rxjs';
+import { AsyncPipe, CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -13,61 +16,24 @@ import { MatMenuModule } from '@angular/material/menu';
     RouterLinkActive,
     MatToolbarModule,
     MatButtonModule,
-    MatMenuModule
+    MatMenuModule,
+    AsyncPipe,
+    CommonModule
   ],
-  template: `
-    <mat-toolbar color="primary">
-      <span>Testing Platform</span>
-      
-      <nav class="nav-links">
-        <!-- Меню для студента -->
-        <a mat-button 
-           routerLink="/student/history" 
-           routerLinkActive="active-link">
-          Student Panel
-        </a>
-        
-        <!-- Меню для преподавателя -->
-        <a mat-button 
-           routerLink="/teacher/create-test" 
-           routerLinkActive="active-link">
-          Teacher Panel
-        </a>
-      </nav>
-    </mat-toolbar>
+  templateUrl: './app.component.html',
+   styleUrl: './app.component.css'
 
-    <main class="content">
-      <router-outlet></router-outlet>
-    </main>
-  `,
-  styles: `
-    :host {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    
-    mat-toolbar {
-      justify-content: space-between;
-    }
-    
-    .nav-links {
-      display: flex;
-      gap: 20px;
-    }
-    
-    .active-link {
-      background: rgba(255,255,255,0.2);
-    }
-    
-    .content {
-      flex: 1;
-      padding: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-  `
 })
 export class AppComponent {
   title = 'angular-testing-platform';
+  
+  isAuthenticated$: Observable<boolean>;
+
+  constructor(private authService: AuthService) {
+    this.isAuthenticated$ = this.authService.isAuthenticated$;
+  }
+
+  logout() {
+    this.authService.logout();
+  }
 }
