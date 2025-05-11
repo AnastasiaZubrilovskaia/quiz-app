@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-test-creator',
   templateUrl: './test-creator.component.html',
-  styleUrls: ['./test-creator.component.scss'],
+  styleUrls: ['./test-creator.component.css'],
   standalone: true,
   imports: [
     CommonModule,

@@ -14,7 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
   standalone: true,
   imports: [CommonModule, RouterModule, MatTableModule, MatIconModule, MatButtonModule],
   templateUrl: './test-list.component.html',
-  styleUrl: './test-list.component.scss'
+  styleUrl: './test-list.component.css'
 })
 export class TestListComponent implements OnInit {
   isAuthenticated$ = new BehaviorSubject<boolean>(false);

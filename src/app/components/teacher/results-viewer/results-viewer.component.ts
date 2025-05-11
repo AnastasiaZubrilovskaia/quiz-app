@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [MatTableModule, CommonModule, MatIconModule],
   templateUrl: './results-viewer.component.html',
-  styleUrls: ['./results-viewer.component.scss']
+  styleUrls: ['./results-viewer.component.css']
 })
 export class ResultsViewerComponent implements OnInit {
   displayedColumns: string[] = ['studentName', 'score', 'date'];

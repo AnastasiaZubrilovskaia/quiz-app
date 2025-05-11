@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-test-taker',
   templateUrl: './test-taker.component.html',
-  styleUrls: ['./test-taker.component.scss'],
+  styleUrls: ['./test-taker.component.css'],
   standalone: true,
   imports: [
     CommonModule,
