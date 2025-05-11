@@ -47,13 +47,13 @@ export class TestCreatorComponent {
 
   createTest(): void {
     if (!this.testTitle) {
-      this.showError('Please enter test title');
+      this.showError('Пожалуйста, введите название теста');
       return;
     }
     
     const test = this.testService.createTest(this.testTitle, this.testDescription);
     this.currentTestId = test.id;
-    this.showSuccess('Test created successfully!');
+    this.showSuccess('Тест создан успешно!');
     this.saveTest(); // Автосохранение при создании
   }
   trackByOption(index: number): number {
@@ -62,7 +62,7 @@ export class TestCreatorComponent {
 
   addQuestion(): void {
     if (!this.currentTestId) {
-      this.showError('Please create a test first');
+      this.showError('Пожалуйста, сначала создайте тест');
       return;
     }
     
@@ -71,30 +71,23 @@ export class TestCreatorComponent {
     this.saveTest(); // Автосохранение после добавления вопроса
     
     this.resetQuestionForm();
-    this.showSuccess('Question added successfully!');
+    this.showSuccess('Вопрос успешно добавлен!');
   }
 
   saveTest(): void {
     if (!this.currentTestId) return;
     
-    // Используем новый метод сохранения
       this.testService.saveTestWithCurrentQuestion(
         this.currentTestId, 
         this.newQuestion
       );
 
-      this.showSuccess('Test saved successfully!');
-  
-  // Для отладки - проверим что сохранилось
-      console.log(
-        'Saved test:', 
-        this.testService.getTestById(this.currentTestId)
-    );
+      this.showSuccess('Тест сохранен успешно!');
   }
 
   private validateQuestion(): boolean {
     if (!this.newQuestion.text || this.newQuestion.options.some(opt => !opt)) {
-      this.showError('Please fill all question fields');
+      this.showError('Пожалуйста, заполните все поля для вопросов');
       return false;
     }
     return true;
@@ -144,7 +137,7 @@ export class TestCreatorComponent {
     
     const test = this.testService.getTestById(this.currentTestId);
     if (!test) return;
-    
+    //Преобразование в  JSON
     const dataStr = JSON.stringify(test, null, 2);
     const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
     

@@ -44,10 +44,10 @@ export class TestListComponent implements OnInit {
   }
   onTestClick(test: Test): void {
     if (this.isAuthenticated$.value) {
-      // Для авторизованных (учителей)
+      // Для учителей
       this.router.navigate(['/tests', test.id, 'results']);
     } else {
-      // Для неавторизованных (студентов)
+      // Для студентов
       this.router.navigate(['/test', test.id]);
     }
   }

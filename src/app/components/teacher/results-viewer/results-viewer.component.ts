@@ -26,14 +26,12 @@ export class ResultsViewerComponent implements OnInit {
   ngOnInit(): void {
     const testId = this.route.snapshot.paramMap.get('id');
     if (testId) {
-      // Получаем попытки из сервиса
+      // Получение попыток из сервиса
       this.attempts = this.testService.getAttemptsByTestId(testId);
       
-      // Получаем название теста
+      // Получение названия теста
       const test = this.testService.getTestById(testId);
-      this.testTitle = test?.title || 'Unknown Test';
-      
-      console.log('Loaded attempts:', this.attempts); // Для отладки
+      this.testTitle = test?.title || 'Неизвестный тест';
     }
   }
 }

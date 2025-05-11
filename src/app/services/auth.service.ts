@@ -5,8 +5,7 @@ import { Router } from "@angular/router";
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private teachers = [
-    { login: 'teacher1', password: '12345' },
-    { login: 'teacher2', password: '67890' }
+    { login: 'teacher', password: '12345' }
   ];
   isAuthenticated$ = new BehaviorSubject<boolean>(false);
 

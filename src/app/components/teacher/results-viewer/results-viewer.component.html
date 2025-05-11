@@ -1,7 +1,7 @@
 <div class="results-container">
   <h2>Результаты теста: {{testTitle}}</h2>
   
-  <mat-table [dataSource]="attempts" class="mat-elevation-z8">
+  <mat-table [dataSource]="attempts" class="mat-elevation-z8"> <!-- Компонент таблицы -->
     <!-- Имя студента -->
     <ng-container matColumnDef="studentName">
       <mat-header-cell *matHeaderCellDef>Студент</mat-header-cell>

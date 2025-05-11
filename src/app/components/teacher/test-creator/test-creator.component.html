@@ -1,25 +1,25 @@
 <div class="container">
-  <h2>Create New Test</h2>
+  <h2>Создать новый тест</h2>
   
   <div *ngIf="!currentTestId">
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Test Title</mat-label>
+      <mat-label>Название теста</mat-label>
       <input matInput [(ngModel)]="testTitle" required>
     </mat-form-field>
     
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Description</mat-label>
+      <mat-label>Описание</mat-label>
       <textarea matInput [(ngModel)]="testDescription"></textarea>
     </mat-form-field>
     
-    <button mat-raised-button color="primary" (click)="createTest()">Create Test</button>
+    <button mat-raised-button color="primary" (click)="createTest()">Создать тест</button>
   </div>
   
   <div *ngIf="currentTestId">
-    <h3>Add Questions</h3>
+    <h3>Добавить вопросы</h3>
     
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Question Text</mat-label>
+      <mat-label>Тест вопроса</mat-label>
       <input 
         #questionInput
         matInput 
@@ -30,7 +30,7 @@
     
     <div *ngFor="let option of newQuestion.options; let i = index; trackBy: trackByOption" class="option-row">
       <mat-form-field appearance="fill" class="option-field">
-        <mat-label>Option {{i + 1}}</mat-label>
+        <mat-label>Вариант ответа {{i + 1}}</mat-label>
         <input 
           matInput 
           [(ngModel)]="newQuestion.options[i]" 
@@ -39,29 +39,29 @@
       </mat-form-field>
     </div>
     
-    <button mat-button (click)="addOption()">Add Option</button>
+    <button mat-button (click)="addOption()">Добавить вариант ответа</button>
     
     <mat-form-field appearance="fill" class="points-field">
-      <mat-label>Correct Answer</mat-label>
+      <mat-label>Создать вопрос</mat-label>
       <mat-select [(ngModel)]="newQuestion.correctAnswer">
         <mat-option *ngFor="let option of newQuestion.options; let i = index" [value]="i">
-          Option {{i + 1}}
+          Вариант ответа {{i + 1}}
         </mat-option>
       </mat-select>
     </mat-form-field>
     
     <mat-form-field appearance="fill" class="points-field">
-      <mat-label>Points</mat-label>
+      <mat-label>Баллы</mat-label>
       <input matInput type="number" [(ngModel)]="newQuestion.points" min="1">
     </mat-form-field>
     
     <div class="actions">
       <button mat-raised-button color="primary" (click)="addQuestion()">
-        {{ hasUnsavedQuestion() ? 'Save & Add New' : 'Add Question' }}
+        {{ hasUnsavedQuestion() ? 'Добавить вопрос' : 'Добавить вопрос' }}
       </button>
       
       <button mat-raised-button color="accent" (click)="saveTest()">
-        Final Save
+        Сохранить тест
       </button>
       
       <button mat-raised-button color="warn" (click)="downloadTestJson()">

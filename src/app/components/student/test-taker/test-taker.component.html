@@ -1,26 +1,28 @@
 <div class="container">
-  <div *ngIf="!test">
-    <p>Test not found</p>
+  <div *ngIf="!test">   <!--директива, которая показывает блок, если выполняется условие -->
+    <p>Тест не найден</p>
   </div>
 
-  <!-- Шаг 1: Ввод имени -->
-  <div *ngIf="test && !testStarted" class="start-screen">
-    <h2>{{test.title}}</h2>
-    <p>{{test.description}}</p>
-    
-    <mat-form-field appearance="fill">
-      <mat-label>Your Name</mat-label>
-      <input matInput [(ngModel)]="studentName" required>
-    </mat-form-field>
-    
+<!-- Ввод имени -->
+<div *ngIf="test && !testStarted" class="start-screen">
+  <h2>{{test.title}}</h2>
+  <p>{{test.description}}</p>
+  
+  <mat-form-field appearance="fill">  <!--Компонент для формы-->
+    <mat-label>Ваше имя</mat-label>
+    <input matInput [(ngModel)]="studentName" required>
+  </mat-form-field>
+  
+  <div class="button-container">
     <button mat-raised-button color="primary" (click)="startTest()">
-      Start Test
+      Начать тест
     </button>
   </div>
+</div>
 
-  <!-- Шаг 2: Прохождение теста -->
+  <!-- Прохождение теста -->
   <div *ngIf="testStarted && !testCompleted && test" class="test-screen">
-    <h3>Question {{currentQuestionIndex + 1}} of {{test.questions.length}}</h3>
+    <h3>Вопрос {{currentQuestionIndex + 1}} из {{test.questions.length}}</h3>
     <p>{{currentQuestion?.text}}</p>
     
     <mat-radio-group [(ngModel)]="answers[currentQuestionIndex]">
@@ -31,33 +33,33 @@
     </mat-radio-group>
     
     <div class="navigation">
-      <button mat-button (click)="prevQuestion()" [disabled]="currentQuestionIndex === 0">
-        Previous
+      <button mat-raised-button color="primary" (click)="prevQuestion()" [disabled]="currentQuestionIndex === 0">
+        Назад
       </button>
       <button *ngIf="test && currentQuestionIndex < test.questions.length - 1"
               mat-raised-button color="primary" (click)="nextQuestion()">
-        Next
+        Далее
       </button>
       <button *ngIf="test && currentQuestionIndex === test.questions.length - 1"
               mat-raised-button color="accent" (click)="submitTest()">
-        Submit Test
+        Завершить тестирование
       </button>
     </div>
   </div>
 
   <!-- Результаты теста -->
   <div *ngIf="testCompleted && result" class="result-screen">
-    <h2>Test Completed</h2>
-    <p>Your score: {{result.score}} out of {{getTotalPossibleScore()}}</p>
+    <h2>Тест завершен</h2>
+    <p>Твои баллы: {{result.score}} из {{getTotalPossibleScore()}}</p>
     
     <button mat-raised-button color="primary" (click)="toggleReview()">
-      {{showReview ? 'Hide Answers' : 'Review Answers'}}
+      {{showReview ? 'Скрыть ответы' : 'Показать ответы'}}
     </button>
     
-  <!-- Режим просмотра ответов -->
+  <!-- Просмотр ответов -->
   <div *ngIf="showReview && test" class="review-container">
     <div *ngFor="let question of test.questions; let i = index" class="review-question">
-      <h3>Question {{i + 1}}: {{question.text}}</h3>
+      <h3>Вопрос {{i + 1}}: {{question.text}}</h3>
       
       <div *ngFor="let option of question.options; let j = index" 
            [class]="getOptionClass(i, j) + ' review-option'">
@@ -67,7 +69,7 @@
       </div>
       
       <p *ngIf="answers[i] !== question.correctAnswer" class="correct-explanation">
-        Correct answer: {{question.options[question.correctAnswer]}}
+        Правильный ответ: {{question.options[question.correctAnswer]}}
       </p>
     </div>
   </div>

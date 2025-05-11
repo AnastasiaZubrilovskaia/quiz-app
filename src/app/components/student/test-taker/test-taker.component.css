@@ -4,7 +4,13 @@
   margin: 0 auto;
 }
 
+
 .start-screen {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
   text-align: center;
 }
 
@@ -13,9 +19,32 @@
   color: #666;
 }
 
+.start-screen mat-form-field {
+  width: 100%;
+}
+
 .start-screen .name-input {
   width: 300px;
   margin-bottom: 30px;
+}
+
+.start-screen .button-container {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;  
+  margin: 10px 0 10px 0;
+}
+
+.start-screen .button-container button {
+  width: 200px;
+  padding: 10px 0;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.start-screen .button-container button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .test-screen .test-header {

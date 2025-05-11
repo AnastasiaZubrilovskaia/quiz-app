@@ -61,7 +61,6 @@ export class TestService {
       throw new Error('Test not found');
     }
 
-    // If there's an unsaved question
     if (currentQuestion.text?.trim() && currentQuestion.options?.some(o => o.trim())) {
       const question: Question = {
         id: uuidv4(),
@@ -81,10 +80,8 @@ export class TestService {
       throw new Error('Invalid test: ID is required');
     }
 
-    // Create a deep copy of the test
     const testCopy = JSON.parse(JSON.stringify(test));
     
-    // Ensure all questions have IDs
     testCopy.questions = testCopy.questions.map((q: Question) => ({
       ...q,
       id: q.id || uuidv4(),
@@ -117,6 +114,7 @@ export class TestService {
     this.storageService.saveTest(test);
   }
 
+  //Проверка результатов теста и сохранение попытки прохождения
   evaluateTest(testId: string, studentName: string, answers: number[]): Attempt {
     if (!testId) {
       throw new Error('Test ID is required');

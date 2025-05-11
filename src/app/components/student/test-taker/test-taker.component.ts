@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-test-taker',
   templateUrl: './test-taker.component.html',
   styleUrls: ['./test-taker.component.css'],
-  standalone: true,
+  standalone: true, //компонент независимый (не нужны доп модули)
   imports: [
     CommonModule,
     FormsModule,
@@ -32,17 +32,17 @@ export class TestTakerComponent implements OnInit {
   testId: string = '';
   studentName: string = '';
   test: Test | null = null;
-  currentQuestionIndex: number = -1; // Изменили на -1 (не начат тест)
-  answers: number[] = [];
+  currentQuestionIndex: number = -1; // Текущий вопрос (-1 - тест не начат)
+  answers: number[] = []; // Массив ответов студента
   testCompleted: boolean = false;
-  result: Attempt | null = null;
-  testStarted: boolean = false; // Добавили флаг начала теста
+  result: Attempt | null = null; // Результат прохождения
+  testStarted: boolean = false; // Начат ли тест (флаг)
   showReview: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private testService: TestService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar //для отображения уведомлений в снэк-баре
   ) {}
 
   ngOnInit(): void {
@@ -59,11 +59,11 @@ export class TestTakerComponent implements OnInit {
 
   startTest(): void {
     if (!this.studentName.trim()) {
-      this.snackBar.open('Please enter your name', 'Close', { duration: 3000 });
+      this.snackBar.open('Введите свое имя', 'Закрыть', { duration: 3000 });
       return;
     }
-    this.testStarted = true; // Устанавливаем флаг начала теста
-    this.currentQuestionIndex = 0; // Теперь начинаем тест
+    this.testStarted = true; 
+    this.currentQuestionIndex = 0; 
   }
 
   selectAnswer(optionIndex: number): void {
@@ -84,7 +84,7 @@ export class TestTakerComponent implements OnInit {
 
   submitTest(): void {
     if (this.answers.some(a => a === -1)) {
-      this.snackBar.open('Please answer all questions', 'Close', { duration: 3000 });
+      this.snackBar.open('Пожалуйста, ответьте на все вопросы', 'Закрыть', { duration: 3000 });
       return;
     }
     

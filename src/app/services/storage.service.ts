@@ -6,9 +6,11 @@ import { Attempt } from '../models/attempt.model';
   providedIn: 'root'
 })
 export class StorageService {
+  //Ключи, по которым данные хранятся в localStorage
   private readonly TESTS_KEY = 'quiz-app-tests';
   private readonly ATTEMPTS_KEY = 'quiz-app-attempts';
 
+  // Преобразование в JSON-строку с сериализацией дат
   private serializeDate(obj: any): any {
     return JSON.stringify(obj, (key, value) => {
       if (value instanceof Date) {
@@ -70,11 +72,11 @@ export class StorageService {
   }
 
   deleteTest(testId: string): void {
-    // 1. Удаляем сам тест
+    //Удаление самого теста
     const tests = this.getTests().filter(test => test.id !== testId);
     localStorage.setItem(this.TESTS_KEY, JSON.stringify(tests));
 
-    // 2. Удаляем все попытки прохождения этого теста
+    //Удаление всех попыток прохождения этого теста
     const attempts = this.getAttempts().filter(attempt => attempt.testId !== testId);
     localStorage.setItem(this.ATTEMPTS_KEY, JSON.stringify(attempts));
   }
